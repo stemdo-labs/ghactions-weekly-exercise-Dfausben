@@ -1,0 +1,22 @@
+name: Tag Image
+
+inputs:
+  image_name:
+    description: El nombre de la imagen Docker
+    required: true
+  version:
+    description: La versión de la imagen
+    required: true
+
+outputs:
+  tagged_image:
+    description: El nombre completo de la imagen etiquetada
+
+runs:
+  using: composite
+  steps:
+    - name: Tag image
+      run: |
+        echo "Tagging image ${{ inputs.image_name }} with version ${{ inputs.version }}"
+        echo "Tagged image: ${{ inputs.image_name }}:${{ inputs.version }}"
+        echo "::set-output name=tagged_image::${{ inputs.image_name }}:${{ inputs.version }}"
