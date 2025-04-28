@@ -38,3 +38,6 @@ jobs:
           context: ../../Dockerfile
           push: true
           tags: ${{ steps.tag.outputs.tagged_image }}
+      
+      - name: Usar la imagen etiquetada
+        run: echo "La imagen etiquetada es ${{ steps.tag.outputs.tagged_image }}"
