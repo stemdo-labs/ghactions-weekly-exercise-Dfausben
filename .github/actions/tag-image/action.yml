@@ -18,5 +18,5 @@ runs:
     - run: |
         echo "Tagging image ${{ inputs.image_name }} with version ${{ inputs.version }}"
         echo "Tagged image: ${{ inputs.image_name }}:${{ inputs.version }}"
-        echo "::set-output name=tagged_image::${{ inputs.image_name }}:${{ inputs.version }}"
+        echo "tagged_image=${{ inputs.image_name }}:${{ inputs.version }}" >> $GITHUB_OUTPUT
       shell: bash
