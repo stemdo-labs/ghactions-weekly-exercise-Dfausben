@@ -26,8 +26,15 @@ jobs:
           image_name: ${{ secrets.DOCKER_USERNAME }}/mi-app-angular
           version: $(cat package.json | jq -r '.version')
 
-      - name: Build and push image
-        run: |
-          docker build -t ${{ steps.tag.outputs.tagged_image }} .
-          docker tag ${{ steps.tag.outputs.tagged_image }} ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: ../../Dockerfile
+          push: true
+          tags: ${{ steps.tag.outputs.tagged_image }}
