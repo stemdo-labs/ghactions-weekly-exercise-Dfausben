@@ -20,7 +20,7 @@ jobs:
           password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Tag image
-        uses: ./.github/actions/tag-image/action.yml
+        uses: ./.github/actions/tag-image
         id: tag
         with:
           image_name: ${{ secrets.DOCKER_USERNAME }}/mi-app-angular
