@@ -1,11 +1,10 @@
 name: CI
 
 on:
-  workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  #     - development
+   push:
+     branches:
+       - main
+       - development
 
 jobs:
   build-and-push:
