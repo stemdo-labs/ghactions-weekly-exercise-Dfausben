@@ -1,4 +1,4 @@
-name: Tag Image
+name: "Tag Image"
 
 inputs:
   image_name:
@@ -10,13 +10,13 @@ inputs:
 
 outputs:
   tagged_image:
-    description: El nombre completo de la imagen etiquetada
+    description: El nombre completo de la imagen
 
 runs:
-  using: composite
+  using: "composite"
   steps:
-    - name: Tag image
-      run: |
+    - run: |
         echo "Tagging image ${{ inputs.image_name }} with version ${{ inputs.version }}"
         echo "Tagged image: ${{ inputs.image_name }}:${{ inputs.version }}"
         echo "::set-output name=tagged_image::${{ inputs.image_name }}:${{ inputs.version }}"
+      shell: bash
