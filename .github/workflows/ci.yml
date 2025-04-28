@@ -1,26 +1,26 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
-      - development
+   push:
+     branches:
+       - main
+       - development
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Login to DockerHub
-        uses: docker/login-action@v1
+        uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Tag image
-        uses: ./.github/workflows/tag-image.yml
+        uses: ./.github/actions/tag-image
         id: tag
         with:
           image_name: ${{ secrets.DOCKER_USERNAME }}/mi-app-angular
@@ -29,4 +29,5 @@ jobs:
       - name: Build and push image
         run: |
           docker build -t ${{ steps.tag.outputs.tagged_image }} .
-          docker push ${{ steps.tag
+          docker tag ${{ steps.tag.outputs.tagged_image }} ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
+          docker push ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
