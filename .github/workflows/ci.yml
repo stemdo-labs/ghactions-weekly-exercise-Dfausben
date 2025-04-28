@@ -29,6 +29,5 @@ jobs:
       - name: Build and push image
         run: |
           docker build -t ${{ steps.tag.outputs.tagged_image }} .
-          docker push ${{ steps.tagdocker tag ${{ steps.tag.outputs.tagged_image }} ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
+          docker tag ${{ steps.tag.outputs.tagged_image }} ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
           docker push ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
-          
