@@ -44,4 +44,4 @@ jobs:
         with:
           context: ../../Dockerfile
           push: true
-          tags: $IMAGE
+          tags: ${{ IMAGE }}
