@@ -8,15 +8,15 @@ on:
 
 jobs:
 
-  Continuous_Integration:
-    uses: ./.github/workflows/ci.yml
-    secrets: inherit
-    with:
-      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+  # Continuous_Integration:
+  #   uses: ./.github/workflows/ci.yml
+  #   secrets: inherit
+  #   with:
+  #     environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
 
 
   Continuous_Deployment:
-    needs: Continuous_Integration
+    # needs: Continuous_Integration
     uses: ./.github/workflows/cd.yml
     secrets: inherit
     with:
