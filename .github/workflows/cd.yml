@@ -1,11 +1,10 @@
 name: CD
 
 on:
-  workflow_call:
-    inputs:
-      environment:
-        required: true
-        type: string
+  workflow_run:
+    workflow: ["Angular app CI/CD"]
+    types:
+      - completed
 
 jobs:
   deploy:

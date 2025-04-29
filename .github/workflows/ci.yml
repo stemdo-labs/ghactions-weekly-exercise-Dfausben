@@ -1,11 +1,10 @@
 name: CI
 
 on:
-  workflow_call:
-    inputs:
-      environment:
-        required: true
-        type: string
+  workflow_run:
+    workflow: ["Angular app CI/CD"]
+    types:
+      - completed
 
 jobs:
   build-and-push:
@@ -19,7 +18,7 @@ jobs:
         uses: docker/login-action@v3
         with:
           username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
+          password: ${{ inputs.password }}
 
       - name: Extraer versión de package.json
         run: |
