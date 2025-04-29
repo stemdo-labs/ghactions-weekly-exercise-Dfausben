@@ -12,9 +12,6 @@ jobs:
 
       - name: Login to DockerHub
         uses: docker/login-action@v3
-        with:
-          username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
 
       - name: Extraer versión de package.json
         run: |

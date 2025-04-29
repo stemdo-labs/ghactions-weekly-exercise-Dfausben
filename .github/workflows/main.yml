@@ -9,7 +9,13 @@ on:
 jobs:
   Continuous_Integration:
     uses: ./.github/workflows/ci.yml
+    with:
+      username: ${{ vars.DOCKER_USERNAME }}
+      password: ${{ secrets.DOCKER_TOKEN }}
 
   Continuous_Deployment:
     needs: Continuous_Integration
     uses: ./.github/workflows/cd.yml
+    with:
+      username: ${{ vars.DOCKER_USERNAME }}
+      password: ${{ secrets.DOCKER_TOKEN }}
