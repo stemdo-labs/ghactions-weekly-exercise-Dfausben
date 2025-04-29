@@ -7,20 +7,15 @@ on:
       - development
 
 jobs:
+
   Continuous_Integration:
-  runs-on: [self-hosted,dfauben]
-  steps: 
-    - uses: ./.github/workflows/ci.yml
-      with:
-        environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
-        password: ${{ secrets.DOCKER_TOKEN }}
+    uses: ./.github/workflows/ci.yml
+    with:
+      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
 
 
-  # Continuous_Deployment:
-  # runs-on: [self-hosted,dfauben]
-  # needs: Continuous_Integration
-  # steps:
-  #   - uses: ./.github/workflows/cd.yml
-  #     with:
-  #       environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
-  #       password: ${{ secrets.DOCKER_TOKEN }}
+  Continuous_Deployment:
+    needs: Continuous_Integration
+    uses: ./.github/workflows/cd.yml
+    with:
+      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
