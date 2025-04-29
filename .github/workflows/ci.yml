@@ -19,12 +19,16 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Tag image
+      - name: Extraer versión de package.json
+        run: |
+          VERSION=$(jq -r '.version' package.json)
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+      - id: tag-image
         uses: ./.github/actions/tag-image
-        id: tag
         with:
-          image_name: ${{ secrets.DOCKER_USERNAME }}/mi-app-angular
-          version: $(cat package.json | jq -r '.version')
+          image_name: ${{ vars.DOCKER_USERNAME }}/mi-app-angular
+          version: $VERSION
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -40,4 +44,4 @@ jobs:
         with:
           context: ../../Dockerfile
           push: true
-          tags: ${{ steps.tag.outputs.tagged_image }}
+          tags: ${{ steps.tag-image.outputs.tagged_image }}
