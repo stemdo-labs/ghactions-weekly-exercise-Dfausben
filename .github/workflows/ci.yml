@@ -2,11 +2,15 @@ name: CI
 
 on:
   workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
 
 jobs:
   build-and-push:
     runs-on: [self-hosted,dfauben]
-    environment: ${{ inputs.env }}
+    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

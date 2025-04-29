@@ -10,11 +10,11 @@ jobs:
   Continuous_Integration:
     uses: ./.github/workflows/ci.yml
     with:
-      env: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
 
 
   Continuous_Deployment:
     needs: Continuous_Integration
     uses: ./.github/workflows/cd.yml
     with:
-      env: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
