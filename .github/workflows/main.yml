@@ -16,11 +16,11 @@ jobs:
         password: ${{ secrets.DOCKER_TOKEN }}
 
 
-  Continuous_Deployment:
-  runs-on: [self-hosted,dfauben]
-  needs: Continuous_Integration
-  steps:
-    - uses: ./.github/workflows/cd.yml
-      with:
-        environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
-        password: ${{ secrets.DOCKER_TOKEN }}
+  # Continuous_Deployment:
+  # runs-on: [self-hosted,dfauben]
+  # needs: Continuous_Integration
+  # steps:
+  #   - uses: ./.github/workflows/cd.yml
+  #     with:
+  #       environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+  #       password: ${{ secrets.DOCKER_TOKEN }}
