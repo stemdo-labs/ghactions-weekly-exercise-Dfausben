@@ -1,4 +1,4 @@
-name: "Tag Image"
+name: "tag-image"
 
 inputs:
   image_name:
