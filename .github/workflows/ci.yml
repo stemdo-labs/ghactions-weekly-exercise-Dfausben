@@ -34,7 +34,7 @@ jobs:
 
       - name: Usar la imagen etiquetada
         needs: ./.github/actions/tag-image
-        run: echo "La imagen etiquetada es ${{ steps.tag.outputs.tagged_image }}"
+        run: echo "La imagen etiquetada es ${{ steps.tag-image.outputs.tagged_image }}"
         
       - name: Build and push
         uses: docker/build-push-action@v6
