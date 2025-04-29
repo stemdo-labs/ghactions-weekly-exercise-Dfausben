@@ -23,9 +23,9 @@ jobs:
 
       - name: Pull image
         run: |
-          docker pull ${{ vars.DOCKER_USERNAME }}/mi-app-angular:${{ env.IMAGE }}
+          docker pull ${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE }}
 
       - name: Deploy
         run: |
-          docker run -d -p 80:80 ${{ vars.DOCKER_USERNAME }}/mi-app-angular:${{ env.IMAGE }}
+          docker run -d -p 80:80 ${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE }}
           curl -s -o /dev/null -w "%{http_code}" http://localhost
