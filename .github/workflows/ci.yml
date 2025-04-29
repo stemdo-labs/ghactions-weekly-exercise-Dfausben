@@ -21,8 +21,8 @@ jobs:
 
       - name: Extraer versión de package.json
         run: |
-          VERSION=$(jq -r '.version' package.json)
-          echo "VERSION=$VERSION" >> $GITHUB_ENV
+          VERS=$(jq -r '.version' package.json)
+          echo "VERSION=$VERS" >> $GITHUB_ENV
 
       - id: tag-image
         uses: ./.github/actions/tag-image
