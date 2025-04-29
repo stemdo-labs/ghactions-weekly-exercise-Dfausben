@@ -11,6 +11,7 @@ inputs:
 outputs:
   tagged_image:
     description: El nombre completo de la imagen
+    value: ${{ inputs.image_name }}:${{ inputs.version }}
 
 runs:
   using: "composite"
@@ -18,5 +19,4 @@ runs:
     - run: |
         echo "Tagging image ${{ inputs.image_name }} with version ${{ inputs.version }}"
         echo "Tagged image: ${{ inputs.image_name }}:${{ inputs.version }}"
-        echo "tagged_image=${{ inputs.image_name }}:${{ inputs.version }}" >> $GITHUB_OUTPUT
       shell: bash
