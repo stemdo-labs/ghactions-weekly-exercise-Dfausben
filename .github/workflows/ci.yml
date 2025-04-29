@@ -7,8 +7,6 @@ on:
         required: true
         type: string
 
-permissions: write-all
-
 jobs:
   build-and-push:
     runs-on: [self-hosted,dfauben]
