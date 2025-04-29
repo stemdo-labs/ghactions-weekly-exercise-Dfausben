@@ -19,7 +19,7 @@ jobs:
         uses: docker/login-action@v1
         with:
           username: ${{ vars.DOCKER_USERNAME }}
-          password: ${{ secrets[inputs.environment + '_DOCKER_TOKEN'] }}
+          password: ${{ secrets.[inputs.environment + '_DOCKER_TOKEN'] }}
 
       - name: Pull image
         run: |
