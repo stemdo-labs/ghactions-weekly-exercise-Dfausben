@@ -27,5 +27,5 @@ jobs:
 
       - name: Deploy
         run: |
-          docker run -d -p 80:80 ${{ vars.DOCKER_USERNAME }}/mi-app-angular:0.0.0
+          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/mi-app-angular:0.0.0
           curl -s -o /dev/null -w "%{http_code}" http://localhost
