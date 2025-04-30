@@ -7,9 +7,9 @@ on:
         required: true
         type: string
 
-outputs:
-  image:
-    value: ${{ jobs.deploy.steps.imagen.IMAGE}}
+    outputs:
+      image:
+        value: ${{ jobs.deploy.steps.imagen.IMAGE}}
 
 jobs:
   build-and-push:
