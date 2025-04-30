@@ -26,8 +26,12 @@ jobs:
 
       - name: Extraer versión de package.json
         run: |
-          VERS=$(jq -r '.version' package.json)
-          echo "VERSION=$VERS" >> $GITHUB_ENV
+            VERS=$(jq -r '.version' package.json)
+            if [[ ! "$VERS" =~ ^[a-zA-Z0-9_.-]+$ ]]; then
+              echo "Invalid version format: $VERS. Setting default version 'latest'."
+              VERS="latest"
+            fi
+            echo "VERSION=$VERS" >> $GITHUB_ENV
 
       - id: tag-image
         uses: ./.github/actions/tag-image
