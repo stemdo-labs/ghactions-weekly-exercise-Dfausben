@@ -15,7 +15,7 @@ jobs:
     runs-on: [self-hosted,dfauben]
     environment: ${{ inputs.environment }}
     outputs:
-      image: ${{ steps.tag-image.outputs.tagged_image }}
+      image: ${{ steps.image_out.outputs.IMAGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
