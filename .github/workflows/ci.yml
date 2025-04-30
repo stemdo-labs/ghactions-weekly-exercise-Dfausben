@@ -1,14 +1,21 @@
 name: CI
 
 on:
-   push:
-     branches:
-       - main
-       - development
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+    outputs:
+      image:
+        value: ${{ jobs.build-and-push.outputs.image }}
 
 jobs:
   build-and-push:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    outputs:
+      image: ${{ steps.image_out.outputs.IMAGE }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -16,18 +23,35 @@ jobs:
       - name: Login to DockerHub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_USERNAME }}
+          username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-      - name: Tag image
-        uses: ./.github/actions/tag-image
-        id: tag
-        with:
-          image_name: ${{ secrets.DOCKER_USERNAME }}/mi-app-angular
-          version: $(cat package.json | jq -r '.version')
-
-      - name: Build and push image
+      - name: Extraer versión de package.json
         run: |
-          docker build -t ${{ steps.tag.outputs.tagged_image }} .
-          docker tag ${{ steps.tag.outputs.tagged_image }} ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
-          docker push ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:latest
+          VERS=$(jq -r '.version' package.json)
+          echo "VERSION=$VERS" >> $GITHUB_ENV
+
+      - id: tag-image
+        uses: ./.github/actions/tag-image
+        with:
+          image_name: ${{ vars.DOCKER_USERNAME }}/mi-app-angular
+          version: $VERSION
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - id: image_out
+        run: echo "IMAGE=${{ steps.tag-image.outputs.tagged_image }}" >> "$GITHUB_OUTPUT"
+
+      - id: image_env
+        run: echo "IMAGEV=${{ steps.tag-image.outputs.tagged_image }}" >> "$GITHUB_ENV"
+        
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ${{ env.IMAGEV }}

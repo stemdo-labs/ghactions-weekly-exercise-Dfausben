@@ -1,29 +1,44 @@
-# name: CD
+name: CD
 
-# on:
-#   push:
-#     branches:
-#       - main
-#       - development
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      image:
+        required: true
+        type: string
 
-# jobs:
-#   deploy:
-#     runs-on: self-hosted
-#     steps:
-#       - name: Checkout code
-#         uses: actions/checkout@v2
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    env:
+      IMAGE: ${{ inputs.image }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-#       - name: Login to DockerHub
-#         uses: docker/login-action@v1
-#         with:
-#           username: ${{ secrets.DOCKER_USERNAME }}
-#           password: ${{ secrets.DOCKER_TOKEN }}
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ vars.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
 
-#       - name: Pull image
-#         run: |
-#           docker pull ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:${{ github.sha }}
+      - name: Pull image
+        run: |
+          docker pull ${IMAGE}
 
-#       - name: Deploy
-#         run: |
-#           docker run -d -p 80:80 ${{ secrets.DOCKER_USERNAME }}/mi-app-angular:${{ github.sha }}
-#           curl -s -o /dev/null -w "%{http_code}" http://localhost
+      - name: Deploy
+        run: |
+          docker run -d --name dfauben-nginx -p 8080:8080 ${IMAGE}
+
+      - name: Smoke Test with curl
+        run: |
+          STATUS=$(curl -o /dev/null -w '%{http_code}' http://localhost:8080)
+          [ "$STATUS" -eq 200 ] && echo "✅ Smoke test passed" || (echo "❌ Got $STATUS" && exit 1)
+ 
+      - name: Cleanup
+        if: always()
+        run: docker rm -f dfauben-nginx

@@ -1,0 +1,24 @@
+name: Angular app CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - development
+
+jobs:
+
+  Continuous_Integration:
+    uses: ./.github/workflows/ci.yml
+    secrets: inherit
+    with:
+      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+
+
+  Continuous_Deployment:
+    needs: Continuous_Integration
+    uses: ./.github/workflows/cd.yml
+    secrets: inherit
+    with:
+      environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+      image: ${{ needs.Continuous_Integration.outputs.image }}
