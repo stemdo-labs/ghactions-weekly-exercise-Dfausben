@@ -32,5 +32,5 @@ jobs:
 
       - name: Deploy
         run: |
-          docker run -d -p 8080:80 ${IMAGE}
+          docker run -d -p 8080:8080 ${IMAGE}
           curl -s -o /dev/null -w "%{http_code}" http://localhost
