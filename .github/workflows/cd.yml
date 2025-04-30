@@ -15,7 +15,7 @@ jobs:
     runs-on: [self-hosted,dfauben]
     environment: ${{ inputs.environment }}
     env:
-      image: ${{ inputs.image }}
+      IMAGE: ${{ inputs.image }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -28,9 +28,9 @@ jobs:
 
       - name: Pull image
         run: |
-          docker pull ${{ vars.DOCKER_USERNAME }}/${{ env.image }}
+          docker pull ${{ vars.DOCKER_USERNAME }}/$IMAGE
 
       - name: Deploy
         run: |
-          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/${{ env.image }}
+          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/$IMAGE
           curl -s -o /dev/null -w "%{http_code}" http://localhost
