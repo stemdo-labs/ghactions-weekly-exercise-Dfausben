@@ -8,12 +8,14 @@ on:
         type: string
     outputs:
       image:
-        value: ${{ jobs.build-and-push.steps.image_out.outputs.IMAGE }}
+        value: ${{ jobs.build-and-push.steps.outputs.image }}
 
 jobs:
   build-and-push:
     runs-on: [self-hosted,dfauben]
     environment: ${{ inputs.environment }}
+    outputs:
+      image: ${{ steps.tag-image.outputs.tagged_image }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
