@@ -8,7 +8,7 @@ on:
         type: string
     outputs:
       image:
-        value: ${{ jobs.build-and-push.steps.image_out.IMAGE }}
+        value: ${{ jobs.build-and-push.steps.image_out.outputs.IMAGE }}
 
 jobs:
   build-and-push:
