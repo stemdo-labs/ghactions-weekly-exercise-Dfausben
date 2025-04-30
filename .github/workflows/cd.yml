@@ -12,7 +12,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: [self-hosted,dfauben]
+    runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     env:
       IMAGE: ${{ inputs.image }}
