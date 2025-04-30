@@ -11,4 +11,5 @@ FROM nginx
 COPY --from=build /app/dist/sample-angular-app/browser /usr/share/nginx/html
 #Changing default config 
 COPY ./nginx/default.conf  /etc/nginx/conf.d/default.conf
+EXPOSE 8081
 CMD ["nginx", "-g", "daemon off;"]
