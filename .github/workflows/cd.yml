@@ -30,19 +30,10 @@ jobs:
         run: |
           docker pull ${IMAGE}
 
-      - name: Run Nginx Container
+      - name: Deploy
         run: |
-          docker run -d --name $CONTAINER_NAME -p 8080:8080 $IMAGE
-          for i in {1..10}; do
-            if curl -sSf http://localhost:8080 >/dev/null; then
-              echo "✅ Nginx is up"
-              break
-            else
-              echo "⌛ Waiting for Nginx... ($i/10)"
-              sleep 2
-            fi
-          done
- 
+          docker run -d --name dfauben-nginx -p 8080:8080 ${IMAGE}
+
       - name: Smoke Test with curl
         run: |
           STATUS=$(curl -o /dev/null -w '%{http_code}' http://localhost:8080)
@@ -50,4 +41,4 @@ jobs:
  
       - name: Cleanup
         if: always()
-        run: docker rm -f $CONTAINER_NAME
+        run: docker rm -f dfauben-nginx
