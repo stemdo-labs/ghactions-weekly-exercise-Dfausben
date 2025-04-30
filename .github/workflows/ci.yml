@@ -8,7 +8,7 @@ on:
         type: string
     outputs:
       image:
-        value: ${{ jobs.build-and-push.outputs.steps.image_out.IMAGE }}
+        value: ${{ jobs.build-and-push.steps.image_out.IMAGE }}
 
 jobs:
   build-and-push:
@@ -39,11 +39,11 @@ jobs:
           image_name: ${{ vars.DOCKER_USERNAME }}/mi-app-angular
           version: $VERSION
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v3
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
 
       - id: image_out
         run: echo "IMAGE=${{ steps.tag-image.outputs.tagged_image }}" >> $GITHUB_OUTPUT
@@ -51,9 +51,9 @@ jobs:
       - id: image_env
         run: echo "IMAGEV=${{ steps.tag-image.outputs.tagged_image }}" >> "$GITHUB_ENV"
         
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ env.IMAGEV }}
+      # - name: Build and push
+      #   uses: docker/build-push-action@v6
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ${{ env.IMAGEV }}
