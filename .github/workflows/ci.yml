@@ -8,7 +8,7 @@ on:
         type: string
     outputs:
       image:
-        value: ${{ jobs.build-and-push.steps.image_out.outputs.IMAGE}}
+        value: ${{ jobs.build-and-push.steps.image_out.outputs.image }}
 
 jobs:
   build-and-push:
@@ -42,7 +42,7 @@ jobs:
         uses: docker/setup-buildx-action@v3
 
       - id: image_out
-        run: echo "IMAGE=${{ steps.tag-image.outputs.tagged_image }}" >> "$GITHUB_OUTPUT"
+        run: echo "image=${{ steps.tag-image.outputs.tagged_image }}" >> "$GITHUB_OUTPUT"
 
       - id: image_env
         run: echo "IMAGEV=${{ steps.tag-image.outputs.tagged_image }}" >> "$GITHUB_ENV"
