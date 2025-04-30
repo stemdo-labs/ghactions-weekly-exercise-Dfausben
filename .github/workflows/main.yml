@@ -21,3 +21,4 @@ jobs:
     secrets: inherit
     with:
       environment: ${{ github.ref_name == 'main' && 'production' || (github.ref_name == 'development' && 'UAT' || 'UAT') }}
+      image: ${{ needs.Continuous_Integration.outputs.image }}

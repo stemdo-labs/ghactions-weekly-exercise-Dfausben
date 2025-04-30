@@ -6,6 +6,9 @@ on:
       environment:
         required: true
         type: string
+      image:
+        required: true
+        type: string
 
 jobs:
   deploy:
@@ -23,9 +26,9 @@ jobs:
 
       - name: Pull image
         run: |
-          docker pull ${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE }}
+          docker pull ${{ vars.DOCKER_USERNAME }}/${{ inputs.image }}
 
       - name: Deploy
         run: |
-          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE }}
+          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/${{ inputs.image }}
           curl -s -o /dev/null -w "%{http_code}" http://localhost
