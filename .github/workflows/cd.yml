@@ -28,9 +28,9 @@ jobs:
 
       - name: Pull image
         run: |
-          docker pull ${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE }}
+          docker pull ${{ vars.DOCKER_USERNAME }}/${{ env.image }}
 
       - name: Deploy
         run: |
-          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/${{ env.IMAGE }}
+          docker run -d -p 8080:80 ${{ vars.DOCKER_USERNAME }}/${{ env.image }}
           curl -s -o /dev/null -w "%{http_code}" http://localhost
